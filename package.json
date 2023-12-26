@@ -1,0 +1,23 @@
+{
+  "name": "nuxt-app",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^1.0.6",
+    "nuxt": "^3.9.0",
+    "monaco-editor": "^0.45.0",
+    "vite-plugin-monaco-editor": "^1.1.0",
+    "vue": "^3.3.13",
+    "vue-router": "^4.2.5"
+  }
+}

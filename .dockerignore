@@ -1,0 +1,9 @@
+# .dockerignore
+/.nuxt
+/.output
+/node_modules
+
+/.storage
+
+.gitignore
+README.md
