@@ -95,7 +95,8 @@ export async function encryptPaste(paste: { id?: string, content: string, modifi
     var modifiedBase64Encrypted: string | undefined = undefined;
     if (paste.modified) {
         const ivModified = window.crypto.getRandomValues(new Uint8Array(12));
-        const base64IvModified = bytesToBase64(iv);
+        base64IvModified = bytesToBase64(ivModified);
+        
         const modifiedEncoder = new TextEncoder();
         const modifiedEncoded = modifiedEncoder.encode(paste.modified);
         const modifiedCipher = await window.crypto.subtle.encrypt({
