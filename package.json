@@ -12,14 +12,13 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@nuxt/devtools": "^1.0.6",
-    "nuxt": "^3.9.0",
     "monaco-editor": "^0.45.0",
+    "nuxt": "^3.9.1",
     "vite-plugin-monaco-editor": "^1.1.0",
-    "vue": "^3.3.13",
+    "vue": "^3.4.7",
     "vue-router": "^4.2.5"
   }
 }

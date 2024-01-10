@@ -29,7 +29,7 @@ var ignoreChanges = true;
 
 onMounted(() => {
     if (process.client) {
-        if(!container.value){
+        if (!container.value) {
             console.error("Container is missing", container.value);
             return;
         }
@@ -41,12 +41,16 @@ onMounted(() => {
 
         modelOriginal = monaco.editor.createModel(props.original || "", props.language);
         modelModified = monaco.editor.createModel(props.modified || "", props.language);
-            editor.setModel({
-                original: modelOriginal!,
-                modified: modelModified!
-            });
+        editor.setModel({
+            original: modelOriginal!,
+            modified: modelModified!
+        });
 
-        editor.onDidChangeModel((_e) => {
+        modelOriginal.onDidChangeContent((_e) => {
+            if (!ignoreChanges)
+                emit("fileChanged");
+        })
+        modelModified.onDidChangeContent((_e) => {
             if (!ignoreChanges)
                 emit("fileChanged");
         });
@@ -74,7 +78,7 @@ watch(props, (val, old) => {
     }
 });
 
-function getSource(): {original: string, modified: string} {
+function getSource(): { original: string, modified: string } {
     return {
         original: modelOriginal!.getValue(),
         modified: modelModified!.getValue()
