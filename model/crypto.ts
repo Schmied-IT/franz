@@ -35,10 +35,11 @@ export async function decryptPaste(key: CryptoKey | string, paste?: Paste): Prom
     const content = decoder.decode(contentDecrypted);
     var modified = "";
     if (paste.modified) {
+        const ivModified = base64ToBytes(paste.ivModified || paste.iv);
         const modifiedCipher = base64ToBytes(paste.modified);
         const modifiedDecrypted = await subtle.decrypt({
             name: 'AES-GCM',
-            iv: iv
+            iv: ivModified
         }, currentKey, modifiedCipher);
 
         const modifiedDecoder = new TextDecoder();
@@ -79,7 +80,7 @@ export async function encryptPaste(paste: { id?: string, content: string, modifi
     }
 
     const iv = window.crypto.getRandomValues(new Uint8Array(12));
-    const base64IV = bytesToBase64(iv);
+    const base64Iv = bytesToBase64(iv);
 
     const contentEncoder = new TextEncoder();
     const contentEncoded = contentEncoder.encode(paste.content);
@@ -90,21 +91,25 @@ export async function encryptPaste(paste: { id?: string, content: string, modifi
     const contentBase64Encrypted = bytesToBase64(new Uint8Array(contentCipher));
 
 
+    var base64IvModified: string|undefined;
     var modifiedBase64Encrypted: string | undefined = undefined;
     if (paste.modified) {
+        const ivModified = window.crypto.getRandomValues(new Uint8Array(12));
+        const base64IvModified = bytesToBase64(iv);
         const modifiedEncoder = new TextEncoder();
         const modifiedEncoded = modifiedEncoder.encode(paste.modified);
         const modifiedCipher = await window.crypto.subtle.encrypt({
             name: 'AES-GCM',
-            iv: iv,
+            iv: ivModified,
         }, currentKey, modifiedEncoded);
         modifiedBase64Encrypted = bytesToBase64(new Uint8Array(modifiedCipher));
     }
 
     const postBody = {
         id: paste.id,
-        iv: base64IV,
+        iv: base64Iv,
         content: contentBase64Encrypted,
+        ivModified: base64IvModified,
         modified: modifiedBase64Encrypted,
         language: paste.language,
     };

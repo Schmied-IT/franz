@@ -3,5 +3,6 @@ export default interface Paste {
     content: string,
     modified?: string,
     language: string,
-    iv?: string
+    iv?: string,
+    ivModified?: string
 }
