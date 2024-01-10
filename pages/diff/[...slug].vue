@@ -55,8 +55,10 @@ const route = useRoute();
 const loadedPaste: Ref<Paste | undefined> = ref();
 const currentPaste: Ref<Paste | undefined> = ref();
 
+var pasteId: string | undefined;
 if (route.params.slug.length > 0) {
-    const { data } = await useFetch(`/api/pastes/${route.params.slug[0]}`);
+    pasteId = route.params.slug[0];
+    const { data } = await useFetch(`/api/pastes/${pasteId}`);
     loadedPaste.value = data.value as Paste;
 }
 
@@ -76,7 +78,7 @@ onMounted(async () => {
                         // TODO Decode Error
                     }
                 } catch (e) {
-                    decryptResolve({ content: getPlaceholderText(`${e}`), language: "markdown" })
+                    decryptResolve({ id: pasteId, content: getPlaceholderText(`${e}`), language: "markdown" })
                 }
             } else {
                 // TODO No Key Provided
@@ -84,7 +86,7 @@ onMounted(async () => {
         }
     } else {
         if (loadedPaste.value === null) {
-            decryptResolve({ content: getPlaceholderText("Error loading Paste!"), language: "markdown" })
+            decryptResolve({ id: pasteId, content: getPlaceholderText("Error loading Paste!"), language: "markdown" })
         } else {
             decryptResolve({ content: getPlaceholderText(), language: "markdown" });
         }
@@ -109,7 +111,7 @@ async function saveFile() {
         // TODO no pasteLoaded
         return;
     }
-    const {original, modified} = editorRef.value!.getSource();
+    const { original, modified } = editorRef.value!.getSource();
     currentPaste.value.content = original;
     currentPaste.value.modified = modified;
     currentPaste.value.language = currentLanguage.value;
