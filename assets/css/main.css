@@ -62,6 +62,7 @@ body,
     justify-content: flex-start;
 
     button {
+        height: 100%;
         outline: none;
         background: transparent;
         border: none;
@@ -70,6 +71,11 @@ body,
 
     button:hover {
         background-color: var(--input-hover-background);
+    }
+
+    a {
+        text-decoration: none;
+        box-sizing: border-box;
     }
 
     span {

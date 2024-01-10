@@ -1,15 +1,15 @@
 <template>
     <div class="maincontainer">
         <div class="navbar flex-action-bar">
-            <span>Franz!</span>
+            <span>Franz! Diff</span>
 
             <button class="push" :class="fileChanged ? 'unsaved' : 'saved'" @click="saveFile()">
                 <SaveIcon />
             </button>
         </div>
         <ClientOnly>
-            <MonacoEditor :language="currentLanguage" @file-changed="fileChanged = true" @inited="editorInited"
-                ref="editorRef" />
+            <MonacoDiffEditor :language="currentLanguage" @file-changed="fileChanged = true" @inited="editorInited"
+                ref="editorRef" diff="true" />
             <template #fallback>
                 <div class="editor"></div>
             </template>
@@ -30,7 +30,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import MonacoEditor from "~/components/MonacoEditor.vue"
+import MonacoDiffEditor from "~/components/MonacoDiffEditor.vue"
 
 import { getPlaceholderText } from "~/model/DummyMonaco";
 import type Paste from "~/model/Paste";
@@ -45,7 +45,7 @@ function closeDialogs() {
     openDialogs.value = [];
 }
 
-const editorRef = ref<InstanceType<typeof MonacoEditor> | null>(null);
+const editorRef = ref<InstanceType<typeof MonacoDiffEditor> | null>(null);
 
 const fileChanged = ref(false);
 const currentLanguage = ref("markdown");
@@ -93,9 +93,8 @@ onMounted(async () => {
 
 function editorInited() {
     decryptPromise.then((paste) => {
-        console.log("Has paste", paste);
         currentPaste.value = paste;
-        editorRef.value?.setSource(currentPaste.value.content);
+        editorRef.value?.setSource(currentPaste.value.content, currentPaste.value.modified || "");
         changeLanguage(currentPaste.value.language);
     });
 }
@@ -110,7 +109,9 @@ async function saveFile() {
         // TODO no pasteLoaded
         return;
     }
-    currentPaste.value.content = editorRef.value!.getSource();
+    const {original, modified} = editorRef.value!.getSource();
+    currentPaste.value.content = original;
+    currentPaste.value.modified = modified;
     currentPaste.value.language = currentLanguage.value;
 
     const postBody: Paste | null = await encryptPaste(currentPaste.value, extractKeyFromHash());
@@ -121,7 +122,7 @@ async function saveFile() {
     });
 
     currentPaste.value = data.value as Paste;
-    location.pathname = `/${currentPaste.value.id}`;
+    location.pathname = `/diff/${currentPaste.value.id}`;
     fileChanged.value = false;
 }
 </script>

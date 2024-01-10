@@ -4,6 +4,7 @@
 /node_modules
 
 /.storage
+/.docu
 
 .gitignore
 README.md

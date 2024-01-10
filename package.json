@@ -1,6 +1,8 @@
 {
-  "name": "nuxt-app",
-  "version": "0.0.1",
+  "name": "franz-app",
+  "version": "0.0.2",
+  "repository": "https://github.com/Schmied-IT/franz",
+  "license": "AGPL-3.0-or-later",
   "private": true,
   "type": "module",
   "scripts": {

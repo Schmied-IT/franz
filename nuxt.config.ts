@@ -12,7 +12,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      version: pkg.version
+      version: pkg.version,
+      repository: pkg.repository
     }
   },
   vite: {
