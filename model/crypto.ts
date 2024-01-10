@@ -7,9 +7,7 @@ export async function decryptPaste(key: CryptoKey | string, paste?: Paste): Prom
     var currentKey: CryptoKey;
     const subtle = window.crypto.subtle;
     if (typeof key === "string") {
-        console.log("Key provided as String", key);
         currentKey = await decodeJWK(key as string);
-        console.log("Decoded Key to CryptoKey", currentKey);
     } else if (key instanceof CryptoKey) {
         currentKey = key;
     } else {
@@ -25,7 +23,6 @@ export async function decryptPaste(key: CryptoKey | string, paste?: Paste): Prom
         throw new Error("Malformed Encrypted Paste");
     }
 
-    console.log("Decrypt IV", paste.iv)
     const iv = base64ToBytes(paste.iv!);
 
     const contentCipher = base64ToBytes(paste.content);
@@ -83,7 +80,6 @@ export async function encryptPaste(paste: { id?: string, content: string, modifi
 
     const iv = window.crypto.getRandomValues(new Uint8Array(12));
     const base64IV = bytesToBase64(iv);
-    console.log("Encrypt IV", iv, base64IV);
 
     const contentEncoder = new TextEncoder();
     const contentEncoded = contentEncoder.encode(paste.content);
@@ -117,7 +113,6 @@ export async function encryptPaste(paste: { id?: string, content: string, modifi
 }
 
 async function decodeJWK(key: string): Promise<CryptoKey> {
-    console.log("decodeJwk", key)
     const subtle = window.crypto.subtle;
     const jwk: JsonWebKey = {
         alg: "A256GCM",
