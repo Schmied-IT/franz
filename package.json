@@ -1,6 +1,6 @@
 {
   "name": "franz-app",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": "https://github.com/Schmied-IT/franz",
   "license": "AGPL-3.0-or-later",
   "private": true,
@@ -14,11 +14,10 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@nuxt/devtools": "^1.0.6",
-    "monaco-editor": "^0.45.0",
-    "nuxt": "^3.9.1",
-    "vite-plugin-monaco-editor": "^1.1.0",
-    "vue": "^3.4.7",
-    "vue-router": "^4.2.5"
+    "@nuxt/devtools": "^2.0.0",
+    "monaco-editor": "^0.52.2",
+    "nuxt": "^3.15.4",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   }
 }

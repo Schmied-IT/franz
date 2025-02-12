@@ -27,7 +27,7 @@ const emit = defineEmits<{
 
 const allLangs = languages.getLanguages();
 
-let searchInput: HTMLInputElement | null;
+const searchInput = ref<HTMLInputElement>(null);
 
 const languageFilter = ref("");
 const filteredLangs = computed(() => {
@@ -44,7 +44,7 @@ function langChanged(event: Event) {
 watch(props, (newVal) => {
     if (newVal.show) {
         languageFilter.value = "";
-        searchInput?.focus();
+        searchInput.value?.focus();
     }
 }, {
     flush: "post"

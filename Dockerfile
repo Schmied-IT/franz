@@ -1,6 +1,6 @@
-ARG NODE_VERSION=20.10.0
+ARG NODE_VERSION=22.13.1
 
-FROM node:${NODE_VERSION}-slim as base
+FROM node:${NODE_VERSION}-slim AS base
 
 ARG PORT=3000
 
@@ -9,7 +9,7 @@ ENV NODE_ENV=production
 WORKDIR /src
 
 # Build
-FROM base as build
+FROM base AS build
 
 COPY --link package.json yarn.lock /src/
 RUN yarn install --production=false
