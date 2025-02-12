@@ -18,3 +18,7 @@ The DiffEditor is available by prepending `/diff` to the URL path.
 
 `http://localhost:3000` => `http://localhost:3000/diff`  
 `http://localhost:3000/fooBar#someJWK` => `http://localhost:3000/diff/fooBar#someJWK`
+
+## TODOs
+
+* [ ] Validate Key, before overwriting current File
