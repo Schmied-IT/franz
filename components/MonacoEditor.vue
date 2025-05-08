@@ -1,5 +1,5 @@
 <template>
-    <div class="editor" ref="container"></div>
+    <div class="editor" ref="container" :virtualkeyboardpolicy="isMobile()?'none':'auto'"></div>
 </template>
 
 <script setup lang="ts">
